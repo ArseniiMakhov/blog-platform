@@ -1,0 +1,129 @@
+@font-face {
+  font-family: 'InterUI';
+  src:
+    local('InterUI'),
+    url('./Fonts/InterUI/static/Inter-Regular.ttf') format('truetype');
+  font-weight: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ebeef3;
+  font-family: 'InterUI';
+}
+
+.app-header {
+  background-color: #fff;
+  padding: 15px;
+  font-size: 18px;
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1440px;
+    margin: 0 auto;
+
+    .header-title {
+      text-decoration: none;
+      color: #000;
+      line-height: 28px;
+    }
+    .header-navbar {
+      .navbar-link {
+        color: #000;
+        text-decoration: none;
+        padding: 10px 15px;
+        line-height: 28px;
+      }
+      & .sign-up {
+        color: #52c41a;
+        border: 1px solid #52c41a;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
+.list {
+  max-width: 950px;
+  margin: 20px auto 0 auto;
+
+  .list-item {
+    background-color: #fff;
+    padding: 0;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 12px 0px #00000026;
+    
+
+
+    .article {
+      width: 100%;
+      font-family: 'InterUI';
+
+      .article-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .header-left {
+          .left-box {
+            display: flex;
+            align-items: center;
+            .header-title {
+              color: #1890FF;
+              font-size: 20px;
+              line-height: 28px;
+              margin-right: 30px;
+            }
+            .header-likes {
+              color: #000000BF;
+              font-size: 12px;
+              line-height: 22px;
+            }
+          }
+          .header-tag {
+            font-size: 12px;
+            line-height: 15px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            padding: 0 5px;
+            margin-right: 5px;
+          }
+        }
+        .header-right {
+          display: flex;
+          
+          .right-box {
+            .header-username {
+              font-size: 18px;
+              line-height: 28px;
+            }
+            .header-created {
+              font-size: 12px;
+              line-height: 22px;
+            }
+          }
+          .header-img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            margin-left: 10px;
+          }
+        }
+      }
+      .article-description {
+        font-size: 12px;
+        line-height: 22px;
+        color: #000000BF;
+      }
+    }
+  }
+}
