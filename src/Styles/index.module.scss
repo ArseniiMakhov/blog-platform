@@ -61,8 +61,6 @@ body {
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0px 4px 12px 0px #00000026;
-    
-
 
     .article {
       width: 100%;
@@ -74,19 +72,30 @@ body {
         align-items: center;
 
         .header-left {
+          width: 45%;
+          overflow-wrap: break-word;
+
           .left-box {
             display: flex;
             align-items: center;
             .header-title {
-              color: #1890FF;
+              color: #1890ff;
               font-size: 20px;
+              margin-right: 10px;
               line-height: 28px;
-              margin-right: 30px;
             }
             .header-likes {
-              color: #000000BF;
+              color: #000000bf;
               font-size: 12px;
-              line-height: 22px;
+              display: flex;
+              align-items: center;
+
+              .likes-btn {
+                margin-right: 5px;
+                background-color: #fff;
+                border: none;
+                cursor: pointer;
+              }
             }
           }
           .header-tag {
@@ -99,9 +108,13 @@ body {
           }
         }
         .header-right {
+          width: 45%;
           display: flex;
-          
+          justify-content: end;
+
           .right-box {
+            text-align: right;
+
             .header-username {
               font-size: 18px;
               line-height: 28px;
@@ -122,7 +135,7 @@ body {
       .article-description {
         font-size: 12px;
         line-height: 22px;
-        color: #000000BF;
+        color: #000000bf;
       }
     }
   }

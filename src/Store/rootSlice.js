@@ -1,13 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-export const fetchArticles = createAsyncThunk('rootReducer/fetchArticles', async function () {
-  const response = await fetch('https://blog.kata.academy/api/articles')
+export const fetchArticles = createAsyncThunk('rootReducer/fetchArticles', async function (page = 1) {
+  const offset = page * 5 - 5
+  const response = await fetch(`https://blog.kata.academy/api/articles?limit=5&offset=${offset}`)
   if (!response.ok) {
     throw new Error({ name: 'Loading Error', message: 'Articles loading error' })
   }
   const data = await response.json()
   const { articles, articlesCount } = data
-  return { articles, articlesCount }
+  return { articles, articlesCount, page }
+})
+
+export const fetchArticle = createAsyncThunk('rootReducer/fetchArticle', async function (slug) {
+  const response = await fetch(`https://blog.kata.academy/api/articles/${slug}`)
+  if (!response.ok) {
+    throw new Error({ name: 'Loading Error', message: 'Article loading error' })
+  }
+  const data = await response.json()
+  return data
 })
 
 const rootSlice = createSlice({
@@ -16,7 +26,9 @@ const rootSlice = createSlice({
     error: null,
     loading: false,
     articles: [],
+    article: {},
     articlesCount: null,
+    pageNum: 1,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -26,10 +38,22 @@ const rootSlice = createSlice({
       })
       .addCase(fetchArticles.fulfilled, (state, action) => {
         state.articles = action.payload.articles
-        state.loading = false
         state.articlesCount = action.payload.articlesCount
+        state.pageNum = action.payload.page
+        state.loading = false
       })
       .addCase(fetchArticles.rejected, (state, action) => {
+        state.error = action.payload
+      })
+      .addCase(fetchArticle.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchArticle.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.article = action.payload
+        state.loading = false
+      })
+      .addCase(fetchArticle.rejected, (state, action) => {
         state.error = action.payload
       })
   },
