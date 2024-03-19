@@ -17,7 +17,8 @@ export const fetchArticle = createAsyncThunk('rootReducer/fetchArticle', async f
     throw new Error({ name: 'Loading Error', message: 'Article loading error' })
   }
   const data = await response.json()
-  return data
+  const { article } = data
+  return article
 })
 
 const rootSlice = createSlice({
@@ -49,7 +50,6 @@ const rootSlice = createSlice({
         state.loading = true
       })
       .addCase(fetchArticle.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.article = action.payload
         state.loading = false
       })

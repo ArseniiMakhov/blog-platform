@@ -1,22 +1,33 @@
 import { Card } from 'antd'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
+import { fetchArticle } from '../Store/rootSlice'
 import classes from '../Styles/index.module.scss'
 
 const { Meta } = Card
 
 export const ArticleCard = ({ item }) => {
-  const tags = item.tagList ? (
-    item.tagList.map((el, index) => {
-      return (
-        <span key={index} className={classes['header-tag']}>
-          {el}
-        </span>
-      )
+  const dispatch = useDispatch()
+  const tags = item.tagList?.length ? (
+    item.tagList.slice(0, 5).map((el, index) => {
+      if (!el?.trim().length) {
+        return (
+          <span key={index} className={classes['header-tag']}>
+            empty
+          </span>
+        )
+      } else {
+        return (
+          <span key={index} className={classes['header-tag']}>
+            {el.trim().slice(0, 15)}
+          </span>
+        )
+      }
     })
   ) : (
-    <span className={classes['header-tag']}>---</span>
+    <span className={`${classes['header-tag']}  ${classes['no-tag']}`}>No Tags</span>
   )
 
   return (
@@ -26,8 +37,12 @@ export const ArticleCard = ({ item }) => {
           <div className={classes['article-header']}>
             <div className={classes['header-left']}>
               <div className={classes['left-box']}>
-                <Link to={`/articles/${item.slug}`} className={classes['header-title']}>
-                  {item.title}
+                <Link
+                  onClick={() => dispatch(fetchArticle(item.slug))}
+                  to={`/articles/${item.slug}`}
+                  className={classes['header-title']}
+                >
+                  {item.title.trim().slice(0, 20)}
                 </Link>
                 <p className={classes['header-likes']}>
                   <button className={classes['likes-btn']} type="button">
@@ -53,14 +68,20 @@ export const ArticleCard = ({ item }) => {
             </div>
             <div className={classes['header-right']}>
               <div className={classes['right-box']}>
-                <p className={classes['header-username']}>{item.author.username}</p>
+                <p className={classes['header-username']}>{item.author.username.trim().slice(0, 20)}</p>
                 <p className={classes['header-created']}>{format(new Date(item.createdAt), 'MMM dd, yyyy')}</p>
               </div>
               <img className={classes['header-img']} src={item.author.image} />
             </div>
           </div>
         }
-        description={<div className={classes['article-description']}>{item.description}</div>}
+        description={
+          <div className={classes['article-description']}>
+            <p className={classes['description-mini']}>
+              {item.description?.length > 300 ? item.description.slice(0, 300) + '...' : item.description}
+            </p>
+          </div>
+        }
       />
     </Card>
   )

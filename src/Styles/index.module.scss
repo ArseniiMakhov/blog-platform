@@ -61,82 +61,91 @@ body {
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0px 4px 12px 0px #00000026;
+  }
+}
 
-    .article {
-      width: 100%;
-      font-family: 'InterUI';
+.article {
+  width: 100%;
+  font-family: 'InterUI';
 
-      .article-header {
+  .article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-left {
+      width: 45%;
+      overflow-wrap: break-word;
+
+      .left-box {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-
-        .header-left {
-          width: 45%;
-          overflow-wrap: break-word;
-
-          .left-box {
-            display: flex;
-            align-items: center;
-            .header-title {
-              color: #1890ff;
-              font-size: 20px;
-              margin-right: 10px;
-              line-height: 28px;
-            }
-            .header-likes {
-              color: #000000bf;
-              font-size: 12px;
-              display: flex;
-              align-items: center;
-
-              .likes-btn {
-                margin-right: 5px;
-                background-color: #fff;
-                border: none;
-                cursor: pointer;
-              }
-            }
-          }
-          .header-tag {
-            font-size: 12px;
-            line-height: 15px;
-            border: 1px solid #000;
-            border-radius: 5px;
-            padding: 0 5px;
-            margin-right: 5px;
-          }
+        .header-title {
+          color: #1890ff;
+          font-size: 20px;
+          margin-right: 10px;
+          line-height: 28px;
         }
-        .header-right {
-          width: 45%;
+        .header-likes {
+          color: #000000bf;
+          font-size: 12px;
           display: flex;
-          justify-content: end;
+          align-items: center;
 
-          .right-box {
-            text-align: right;
-
-            .header-username {
-              font-size: 18px;
-              line-height: 28px;
-            }
-            .header-created {
-              font-size: 12px;
-              line-height: 22px;
-            }
-          }
-          .header-img {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            margin-left: 10px;
+          .likes-btn {
+            margin-right: 5px;
+            background-color: #fff;
+            border: none;
+            cursor: pointer;
           }
         }
       }
-      .article-description {
+      .header-tag {
         font-size: 12px;
-        line-height: 22px;
-        color: #000000bf;
+        line-height: 15px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 0 5px;
+        margin-right: 5px;
+      }
+      & .no-tag {
+        color: #b4b4b4;
+        border: 1px solid #b4b4b4;
+      }
+    }
+    .header-right {
+      width: 45%;
+      display: flex;
+      justify-content: end;
+
+      .right-box {
+        text-align: right;
+
+        .header-username {
+          font-size: 18px;
+          line-height: 28px;
+        }
+        .header-created {
+          font-size: 12px;
+          line-height: 22px;
+        }
+      }
+      .header-img {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        margin-left: 10px;
       }
     }
   }
+  .article-description {
+    margin-top: 20px;
+    font-size: 12px;
+    line-height: 22px;
+    color: #000000bf;
+  }
+}
+.page {
+  width: 70%;
+  margin: 20px auto;
 }
