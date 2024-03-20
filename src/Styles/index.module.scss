@@ -116,7 +116,7 @@ body {
     .header-right {
       width: 45%;
       display: flex;
-      justify-content: end;
+      justify-content: right;
 
       .right-box {
         text-align: right;
@@ -148,4 +148,35 @@ body {
 .page {
   width: 70%;
   margin: 20px auto;
+}
+
+.form {
+  width: 385px;
+  padding: 30px;
+  margin: 50px auto;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.35);
+
+
+  .form-header {
+    font-size: 20px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  .form-label {
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 15px;
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #BFBFBF;
+      border-radius: 5px;
+      outline: none;
+      font-size: 16px;
+    }
+  }
 }

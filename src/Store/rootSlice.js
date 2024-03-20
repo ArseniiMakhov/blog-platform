@@ -30,8 +30,13 @@ const rootSlice = createSlice({
     article: {},
     articlesCount: null,
     pageNum: 1,
+    redirected: false,
   },
-  reducers: {},
+  reducers: {
+    onRedirected(state, action) {
+      state.redirected = action.payload
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchArticles.pending, (state) => {
@@ -60,3 +65,4 @@ const rootSlice = createSlice({
 })
 
 export default rootSlice.reducer
+export const { onRedirected } = rootSlice.actions

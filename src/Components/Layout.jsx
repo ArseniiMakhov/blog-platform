@@ -7,14 +7,14 @@ export const Layout = () => {
     <>
       <header className={classes['app-header']}>
         <div className={classes['header-container']}>
-          <Link className={classes['header-title']} to="/">
+          <Link className={classes['header-title']} to="/articles">
             Realworld Blog
           </Link>
           <div className={classes['header-navbar']}>
-            <Link className={classes['navbar-link']} to="/SignIn">
+            <Link className={classes['navbar-link']} to="/sign-in">
               Sign In
             </Link>
-            <Link className={`${classes['navbar-link']} ${classes['sign-up']}`} to="/SignUp">
+            <Link className={`${classes['navbar-link']} ${classes['sign-up']}`} to="/sign-up">
               Sign Up
             </Link>
           </div>
