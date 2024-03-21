@@ -20,7 +20,7 @@ export const SignInPage = () => {
       </Button>
       <p className={classes['form-addition']}>
         Don’t have an account?{' '}
-        <Link to="/sign-in" className={classes['addition-link']}>
+        <Link to="/sign-up" className={classes['addition-link']}>
           Sign Up
         </Link>
         .
