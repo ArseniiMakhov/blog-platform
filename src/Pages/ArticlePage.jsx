@@ -47,7 +47,7 @@ export const ArticlePage = () => {
             <div className={classes['article-header']}>
               <div className={classes['header-left']}>
                 <div className={classes['left-box']}>
-                  <h2 className={classes['header-title']}>{item.title.trim().slice(0, 50)}</h2>
+                  <h2 className={classes['header-title']}>{item.title.trim().slice(0, 20)}</h2>
                   <p className={classes['header-likes']}>
                     <button className={classes['likes-btn']} type="button">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

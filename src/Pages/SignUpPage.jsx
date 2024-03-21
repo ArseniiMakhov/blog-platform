@@ -1,3 +1,6 @@
+import { Checkbox, Button } from 'antd'
+import { Link } from 'react-router-dom'
+
 import classes from '../Styles/index.module.scss'
 
 export const SignUpPage = () => {
@@ -20,6 +23,17 @@ export const SignUpPage = () => {
         Repeat Password
         <input className={classes['form-input']} type="password" name="passwordRepeat" placeholder="Password" />
       </label>
+      <Checkbox className={classes['form-checkbox']}>I agree to the processing of my personal information</Checkbox>
+      <Button className={classes['form-btn']} type="primary">
+        Create
+      </Button>
+      <p className={classes['form-signin']}>
+        Already have an account?{' '}
+        <Link to="/sign-in" className={classes['signin-link']}>
+          Sign In
+        </Link>
+        .
+      </p>
     </form>
   )
 }
