@@ -35,15 +35,42 @@ body {
       line-height: 28px;
     }
     .header-navbar {
+      display: flex;
+      align-items: center;
       .navbar-link {
         color: #000;
         text-decoration: none;
-        padding: 10px 15px;
+        padding: 10px 20px;
         line-height: 28px;
       }
-      & .sign-up {
+      .sign-up {
         color: #52c41a;
         border: 1px solid #52c41a;
+        border-radius: 5px;
+      }
+      .new-article {
+        color: #52c41a;
+        font-size: 14px;
+        border: 1px solid #52c41a;
+        border-radius: 5px;
+        padding: 0px 10px;
+      }
+      .user-info {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        margin: 0 25px;
+        .info-username {
+          margin-right: 10px;
+        }
+        .info-avatar {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+        }
+      }
+      .log-out {
+        border: 1px solid #000;
         border-radius: 5px;
       }
     }
@@ -165,6 +192,11 @@ body {
     text-align: center;
     margin-bottom: 20px;
   }
+  .form-success {
+    text-align: center;
+    font-size: 14px;
+    color: #52c41a;
+  }
   .form-label {
     font-size: 14px;
     line-height: 22px;
@@ -193,6 +225,10 @@ body {
       align-self: flex-start;
     }
   }
+  .checkbox-error {
+    color: #f5222d;
+    text-align: center;
+  }
   .form-btn {
     padding: 10px 15px;
     height: auto;
@@ -201,7 +237,7 @@ body {
   .form-addition {
     text-align: center;
     font-size: 12px;
-    color: #8C8C8C;
+    color: #8c8c8c;
 
     .addition-link {
       text-decoration: none;

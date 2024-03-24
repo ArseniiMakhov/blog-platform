@@ -3,9 +3,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 export const fetchArticles = createAsyncThunk('rootReducer/fetchArticles', async function (page = 1) {
   const offset = page * 5 - 5
   const response = await fetch(`https://blog.kata.academy/api/articles?limit=5&offset=${offset}`)
-  if (!response.ok) {
-    throw new Error({ name: 'Loading Error', message: 'Articles loading error' })
-  }
   const data = await response.json()
   const { articles, articlesCount } = data
   return { articles, articlesCount, page }
@@ -13,28 +10,88 @@ export const fetchArticles = createAsyncThunk('rootReducer/fetchArticles', async
 
 export const fetchArticle = createAsyncThunk('rootReducer/fetchArticle', async function (slug) {
   const response = await fetch(`https://blog.kata.academy/api/articles/${slug}`)
-  if (!response.ok) {
-    throw new Error({ name: 'Loading Error', message: 'Article loading error' })
-  }
   const data = await response.json()
   const { article } = data
   return article
 })
 
+export const fetchSignUp = createAsyncThunk('rootReducer/fetchSignUp', async function (user) {
+  const response = await fetch('https://blog.kata.academy/api/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+  })
+  const data = await response.json()
+  return data
+})
+
+export const fetchLogin = createAsyncThunk('rootReducer/fetchLogin', async function (user) {
+  const response = await fetch('https://blog.kata.academy/api/users/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+  })
+  const data = await response.json()
+  return data
+})
+
+export const fetchProfile = createAsyncThunk('rootReducer/fetchProfile', async function (data) {
+  const response = await fetch('https://blog.kata.academy/api/user', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${data.token}`,
+    },
+    body: JSON.stringify({ user: data.data }),
+  })
+  const res = await response.json()
+  return res
+})
+
+export const fetchCurrentUser = createAsyncThunk('rootReducer/fetchCurrentUser', async function (token) {
+  const response = await fetch('https://blog.kata.academy/api/user', {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  })
+  const data = await response.json()
+  return data
+})
+
 const rootSlice = createSlice({
   name: 'rootReducer',
   initialState: {
-    error: null,
+    username: null,
+    email: null,
+    token: null,
+    image: null,
+    errors: null,
     loading: false,
     articles: [],
     article: {},
     articlesCount: null,
     pageNum: 1,
     redirected: false,
+    editProfileStatus: false,
   },
   reducers: {
     onRedirected(state, action) {
       state.redirected = action.payload
+    },
+    clearErrors(state) {
+      state.errors = null
+      state.editProfileStatus = false
+    },
+    logOut(state) {
+      state.username = null
+      state.email = null
+      state.token = null
+      state.image = null
+      localStorage.clear()
     },
   },
   extraReducers: (builder) => {
@@ -49,7 +106,7 @@ const rootSlice = createSlice({
         state.loading = false
       })
       .addCase(fetchArticles.rejected, (state, action) => {
-        state.error = action.payload
+        state.errors = action.error
       })
       .addCase(fetchArticle.pending, (state) => {
         state.loading = true
@@ -59,10 +116,71 @@ const rootSlice = createSlice({
         state.loading = false
       })
       .addCase(fetchArticle.rejected, (state, action) => {
-        state.error = action.payload
+        state.errors = action.error
+      })
+      .addCase(fetchSignUp.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchSignUp.fulfilled, (state, action) => {
+        state.errors = action.payload.errors
+        state.token = action.payload.user?.token
+        state.username = action.payload.user?.username
+        state.email = action.payload.user?.email
+        state.image = action.payload.user?.image
+        state.loading = false
+        localStorage.setItem('token', action.payload.user?.token)
+      })
+      .addCase(fetchSignUp.rejected, (state, action) => {
+        state.errors = action.error
+      })
+      .addCase(fetchLogin.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchLogin.fulfilled, (state, action) => {
+        state.errors = action.payload.errors
+        state.token = action.payload.user?.token
+        state.username = action.payload.user?.username
+        state.email = action.payload.user?.email
+        state.image = action.payload.user?.image
+        state.loading = false
+        localStorage.setItem('token', action.payload.user?.token)
+      })
+      .addCase(fetchLogin.rejected, (state, action) => {
+        state.errors = action.error
+      })
+      .addCase(fetchProfile.pending, (state) => {
+        state.loading = true
+        state.editProfileStatus = false
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.errors = action.payload.errors
+        state.token = action.payload.user?.token
+        state.username = action.payload.user?.username
+        state.email = action.payload.user?.email
+        state.image = action.payload.user?.image
+        state.loading = false
+        state.editProfileStatus = true
+        localStorage.setItem('token', action.payload.user?.token)
+      })
+      .addCase(fetchProfile.rejected, (state, action) => {
+        state.errors = action.error
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.errors = action.payload.errors
+        state.token = action.payload.user?.token
+        state.username = action.payload.user?.username
+        state.email = action.payload.user?.email
+        state.image = action.payload.user?.image
+        state.loading = false
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.errors = action.error
       })
   },
 })
 
 export default rootSlice.reducer
-export const { onRedirected } = rootSlice.actions
+export const { onRedirected, clearErrors, logOut } = rootSlice.actions

@@ -35,6 +35,7 @@ export const ArticlePage = () => {
   if (loading) {
     return <Spin />
   }
+
   if (!item) {
     return <p>Article is empty</p>
   }
