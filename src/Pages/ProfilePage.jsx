@@ -39,7 +39,8 @@ export const ProfilePage = () => {
   const dispatch = useDispatch()
   const rootReducer = useSelector((state) => state.rootReducer)
   const stateErrors = rootReducer.errors
-  const { username, email, image, token, editProfileStatus } = rootReducer
+  const { username, email, image, token } = rootReducer.user
+  const { editProfileStatus } = rootReducer
 
   const {
     register,

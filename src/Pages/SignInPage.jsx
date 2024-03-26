@@ -19,7 +19,7 @@ export const SignInPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const stateErrors = rootReducer.errors
-  const { token } = rootReducer
+  const token = rootReducer.user?.token
 
   const {
     register,

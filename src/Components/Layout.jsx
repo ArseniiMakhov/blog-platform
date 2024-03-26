@@ -7,7 +7,9 @@ import classes from '../Styles/index.module.scss'
 export const Layout = () => {
   const dispatch = useDispatch()
   const rootReducer = useSelector((state) => state.rootReducer)
-  const { token, username, image } = rootReducer
+  const token = rootReducer.user?.token
+  const username = rootReducer.user?.username
+  const image = rootReducer.user?.image
 
   return (
     <>

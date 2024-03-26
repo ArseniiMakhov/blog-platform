@@ -3,11 +3,12 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { ListPage } from '../Pages/ListPage'
-import { fetchArticles, fetchCurrentUser, onRedirected } from '../Store/rootSlice'
+import { fetchCurrentUser, onRedirected } from '../Store/rootSlice'
 import { ArticlePage } from '../Pages/ArticlePage'
 import { SignInPage } from '../Pages/SignInPage'
 import { SignUpPage } from '../Pages/SignUpPage'
 import { ProfilePage } from '../Pages/ProfilePage'
+import { CreateArticlePage } from '../Pages/CreateArticlePage'
 
 import { Layout } from './Layout'
 
@@ -19,7 +20,6 @@ const App = () => {
   const token = localStorage.getItem('token')
 
   useEffect(() => {
-    dispatch(fetchArticles())
     dispatch(fetchCurrentUser(token))
   }, [])
 
@@ -39,6 +39,7 @@ const App = () => {
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/new-article" element={<CreateArticlePage />} />
         </Route>
       </Routes>
     </>

@@ -1,5 +1,6 @@
 import { List, Spin } from 'antd'
 import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 
 import { fetchArticles } from '../Store/rootSlice'
 import { ArticleCard } from '../Components/ArticleCard'
@@ -9,6 +10,10 @@ export const ListPage = () => {
   const dispatch = useDispatch()
   const rootReducer = useSelector((state) => state.rootReducer)
   const { loading, articles, articlesCount, pageNum } = rootReducer
+
+  useEffect(() => {
+    dispatch(fetchArticles())
+  }, [])
 
   return (
     <List

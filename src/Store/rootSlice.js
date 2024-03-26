@@ -62,13 +62,28 @@ export const fetchCurrentUser = createAsyncThunk('rootReducer/fetchCurrentUser',
   return data
 })
 
+export const fetchNewArticle = createAsyncThunk('rootReducer/fetchNewArticle', async function (data) {
+  const response = await fetch('https://blog.kata.academy/api/user', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${data.token}`,
+    },
+    body: JSON.stringify({ article: data.data }),
+  })
+  const res = await response.json()
+  return res
+})
+
 const rootSlice = createSlice({
   name: 'rootReducer',
   initialState: {
-    username: null,
-    email: null,
-    token: null,
-    image: null,
+    user: {
+      username: null,
+      email: null,
+      token: null,
+      image: null,
+    },
     errors: null,
     loading: false,
     articles: [],
@@ -87,10 +102,7 @@ const rootSlice = createSlice({
       state.editProfileStatus = false
     },
     logOut(state) {
-      state.username = null
-      state.email = null
-      state.token = null
-      state.image = null
+      state.user = null
       localStorage.clear()
     },
   },
@@ -123,10 +135,7 @@ const rootSlice = createSlice({
       })
       .addCase(fetchSignUp.fulfilled, (state, action) => {
         state.errors = action.payload.errors
-        state.token = action.payload.user?.token
-        state.username = action.payload.user?.username
-        state.email = action.payload.user?.email
-        state.image = action.payload.user?.image
+        state.user = action.payload.user
         state.loading = false
         localStorage.setItem('token', action.payload.user?.token)
       })
@@ -138,10 +147,7 @@ const rootSlice = createSlice({
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.errors = action.payload.errors
-        state.token = action.payload.user?.token
-        state.username = action.payload.user?.username
-        state.email = action.payload.user?.email
-        state.image = action.payload.user?.image
+        state.user = action.payload.user
         state.loading = false
         localStorage.setItem('token', action.payload.user?.token)
       })
@@ -154,10 +160,7 @@ const rootSlice = createSlice({
       })
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.errors = action.payload.errors
-        state.token = action.payload.user?.token
-        state.username = action.payload.user?.username
-        state.email = action.payload.user?.email
-        state.image = action.payload.user?.image
+        state.user = action.payload.user
         state.loading = false
         state.editProfileStatus = true
         localStorage.setItem('token', action.payload.user?.token)
@@ -170,10 +173,7 @@ const rootSlice = createSlice({
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.errors = action.payload.errors
-        state.token = action.payload.user?.token
-        state.username = action.payload.user?.username
-        state.email = action.payload.user?.email
-        state.image = action.payload.user?.image
+        state.user = action.payload.user
         state.loading = false
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {

@@ -10,6 +10,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: none;
 }
 
 body {
@@ -178,7 +179,7 @@ body {
 }
 
 .form {
-  width: 385px;
+  max-width: 385px;
   padding: 30px;
   margin: 50px auto;
   background-color: #fff;
@@ -201,6 +202,10 @@ body {
     font-size: 14px;
     line-height: 22px;
     margin-bottom: 12px;
+    .add-tag {
+      padding: 8px 15px;
+      height: auto;
+    }
     .form-input {
       width: 100%;
       padding: 10px;
@@ -209,12 +214,37 @@ body {
       outline: none;
       font-size: 16px;
     }
+    .tags-box {
+      display: flex;
+      flex-direction: column;
+      .input-tag {
+        width: 40%;
+        margin: 0 15px 5px 0;
+      }
+      .tag-btn {
+        padding: 8px 15px;
+        margin-right: 15px;
+        height: auto;
+      }
+      .add-tag {
+        color: #4096ff;
+        border-color: #4096ff;
+      }
+    }
+    .input-large {
+      height: 160px;
+      resize: none;
+    }
     .error {
       border: 1px solid #f5222d;
     }
     .form-error {
       color: #f5222d;
     }
+  }
+  .label-tag {
+    display: flex;
+    flex-direction: column;
   }
   .form-checkbox {
     margin-top: 10px;
@@ -234,6 +264,9 @@ body {
     height: auto;
     margin: 15px 0 8px 0;
   }
+  .btn-send {
+    width: 50%;
+  }
   .form-addition {
     text-align: center;
     font-size: 12px;
@@ -245,4 +278,7 @@ body {
       color: #1677ff;
     }
   }
+}
+.form-article {
+  max-width: 950px;
 }
