@@ -8,7 +8,7 @@ import { ArticlePage } from '../Pages/ArticlePage'
 import { SignInPage } from '../Pages/SignInPage'
 import { SignUpPage } from '../Pages/SignUpPage'
 import { ProfilePage } from '../Pages/ProfilePage'
-import { CreateArticlePage } from '../Pages/CreateArticlePage'
+import { CreateEditArticlePage } from '../Pages/CreateEditArticlePage'
 
 import { Layout } from './Layout'
 
@@ -39,7 +39,7 @@ const App = () => {
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/new-article" element={<CreateArticlePage />} />
+          <Route path="/new-article" element={<CreateEditArticlePage />} />
         </Route>
       </Routes>
     </>

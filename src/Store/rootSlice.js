@@ -92,6 +92,7 @@ const rootSlice = createSlice({
     pageNum: 1,
     redirected: false,
     editProfileStatus: false,
+    editArticleStatus: false,
   },
   reducers: {
     onRedirected(state, action) {

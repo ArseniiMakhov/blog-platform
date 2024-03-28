@@ -1,5 +1,5 @@
+import { useForm, useFieldArray } from 'react-hook-form'
 import { Button } from 'antd'
-import { useFieldArray, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useSelector, useDispatch } from 'react-redux'
@@ -14,10 +14,12 @@ const schema = yup.object().shape({
   tagList: yup.array().of(yup.object().nullable().notRequired()).nullable().required(),
 })
 
-export const CreateArticlePage = () => {
+export const CreateEditArticlePage = () => {
   const dispatch = useDispatch()
   const rootReducer = useSelector((state) => state.rootReducer)
   const token = rootReducer.user?.token
+  const editArticleStatus = rootReducer.editArticleStatus
+  const article = rootReducer.article
 
   const {
     register,
@@ -26,10 +28,10 @@ export const CreateArticlePage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: '',
-      description: '',
-      body: '',
-      tagList: [{ value: '' }],
+      title: editArticleStatus ? article.title : '',
+      description: editArticleStatus ? article.description : '',
+      body: editArticleStatus ? article.body : '',
+      tagList: editArticleStatus ? article.tagList : [{ value: '' }],
     },
     resolver: yupResolver(schema),
   })
@@ -38,24 +40,6 @@ export const CreateArticlePage = () => {
     control,
     name: 'tagList',
   })
-
-  const submitForm = (data) => {
-    console.log(data)
-    let res
-    if (data.tagList.length === 1 && !data.tagList[0].value) {
-      const { title, description, body } = data
-      res = { title, description, body }
-    } else {
-      res = { ...data, tagList: data.tagList.map((el) => el.value) }
-    }
-    dispatch(fetchNewArticle({ res, token }))
-  }
-
-  const deleteTag = (index) => {
-    if (fields.length > 1) {
-      remove(index)
-    }
-  }
 
   const showTagList = () => {
     return fields.map((field, index) => {
@@ -79,6 +63,13 @@ export const CreateArticlePage = () => {
           </li>
         )
       }
+
+      const deleteTag = (index) => {
+        if (fields.length > 1) {
+          remove(index)
+        }
+      }
+
       return (
         <li key={field.id}>
           <input
@@ -97,9 +88,22 @@ export const CreateArticlePage = () => {
     })
   }
 
+  const submitForm = (data) => {
+    if (!editArticleStatus) {
+      let res
+      if (data.tagList.length === 1 && !data.tagList[0].value) {
+        const { title, description, body } = data
+        res = { title, description, body }
+      } else {
+        res = { ...data, tagList: data.tagList.map((el) => el.value) }
+      }
+      dispatch(fetchNewArticle({ res, token }))
+    }
+  }
+
   return (
     <form className={`${classes.form} ${classes['form-article']}`} onSubmit={handleSubmit(submitForm)}>
-      <h2 className={classes['form-header']}>Create new article</h2>
+      <h2 className={classes['form-header']}>{editArticleStatus ? 'Edit article' : 'Create new article'}</h2>
       <label className={classes['form-label']}>
         Title
         <input className={classes['form-input']} type="text" name="title" placeholder="Title" {...register('title')} />
