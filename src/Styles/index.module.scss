@@ -136,7 +136,12 @@ body {
         padding: 0 5px;
         margin-right: 5px;
       }
-      & .no-tag {
+      .no-tag {
+        color: #b4b4b4;
+        border: none;
+        text-decoration: underline;
+      }
+      .empty {
         color: #b4b4b4;
         border: 1px solid #b4b4b4;
       }

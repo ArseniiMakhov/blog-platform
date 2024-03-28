@@ -63,13 +63,13 @@ export const fetchCurrentUser = createAsyncThunk('rootReducer/fetchCurrentUser',
 })
 
 export const fetchNewArticle = createAsyncThunk('rootReducer/fetchNewArticle', async function (data) {
-  const response = await fetch('https://blog.kata.academy/api/user', {
-    method: 'PUT',
+  const response = await fetch('https://blog.kata.academy/api/articles', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Token ${data.token}`,
     },
-    body: JSON.stringify({ article: data.data }),
+    body: JSON.stringify({ article: data.res }),
   })
   const res = await response.json()
   return res
@@ -177,6 +177,16 @@ const rootSlice = createSlice({
         state.loading = false
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.errors = action.error
+      })
+      .addCase(fetchNewArticle.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchNewArticle.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.loading = false
+      })
+      .addCase(fetchNewArticle.rejected, (state, action) => {
         state.errors = action.error
       })
   },

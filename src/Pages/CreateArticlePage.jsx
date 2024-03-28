@@ -2,22 +2,22 @@ import { Button } from 'antd'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-// import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
+import { fetchNewArticle } from '../Store/rootSlice'
 import classes from '../Styles/index.module.scss'
 
 const schema = yup.object().shape({
   title: yup.string().required(),
-  shortDescription: yup.string().required(),
-  text: yup.string().required(),
-  tags: yup.array().of(yup.string()).nullable().notRequired(),
+  description: yup.string().required(),
+  body: yup.string().required(),
+  tagList: yup.array().of(yup.object().nullable().notRequired()).nullable().required(),
 })
 
 export const CreateArticlePage = () => {
-  // const dispatch = useDispatch()
-  // const rootReducer = useSelector((state) => state.rootReducer)
-  // const item = rootReducer.article
-  // const token = rootReducer.user?.token
+  const dispatch = useDispatch()
+  const rootReducer = useSelector((state) => state.rootReducer)
+  const token = rootReducer.user?.token
 
   const {
     register,
@@ -27,20 +27,28 @@ export const CreateArticlePage = () => {
   } = useForm({
     defaultValues: {
       title: '',
-      shortDescription: '',
-      text: '',
-      tags: [{ value: '' }],
+      description: '',
+      body: '',
+      tagList: [{ value: '' }],
     },
     resolver: yupResolver(schema),
   })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'tags',
+    name: 'tagList',
   })
 
   const submitForm = (data) => {
     console.log(data)
+    let res
+    if (data.tagList.length === 1 && !data.tagList[0].value) {
+      const { title, description, body } = data
+      res = { title, description, body }
+    } else {
+      res = { ...data, tagList: data.tagList.map((el) => el.value) }
+    }
+    dispatch(fetchNewArticle({ res, token }))
   }
 
   const deleteTag = (index) => {
@@ -58,8 +66,8 @@ export const CreateArticlePage = () => {
               className={`${classes['form-input']} ${classes['input-tag']}`}
               defaultValue={field.value}
               type="text"
-              name={`tags.${index}.value`}
-              {...register(`tags.${index}.value`)}
+              name={`tagList.${index}.value`}
+              {...register(`tagList.${index}.value`)}
               placeholder="Tag"
             />
             <Button danger className={classes['tag-btn']} onClick={() => deleteTag(index)}>
@@ -77,8 +85,8 @@ export const CreateArticlePage = () => {
             className={`${classes['form-input']} ${classes['input-tag']}`}
             defaultValue={field.value}
             type="text"
-            name={`tags.${index}.value`}
-            {...register(`tags.${index}.value`)}
+            name={`tagList.${index}.value`}
+            {...register(`tagList.${index}.value`)}
             placeholder="Tag"
           />
           <Button danger className={classes['tag-btn']} onClick={() => deleteTag(index)}>
@@ -95,29 +103,29 @@ export const CreateArticlePage = () => {
       <label className={classes['form-label']}>
         Title
         <input className={classes['form-input']} type="text" name="title" placeholder="Title" {...register('title')} />
-        <p className={classes['form-error']}>{errors.title && errors.title.message}</p>
+        <p className={classes['form-error']}>{errors.title && 'Fill out this field'}</p>
       </label>
       <label className={classes['form-label']}>
         Short description
         <input
           className={classes['form-input']}
           type="text"
-          name="shortDescription"
+          name="description"
           placeholder="Title"
-          {...register('shortDescription')}
+          {...register('description')}
         />
-        <p className={classes['form-error']}>{errors.shortDescription && errors.shortDescription.message}</p>
+        <p className={classes['form-error']}>{errors.description && 'Fill out this field'}</p>
       </label>
       <label className={classes['form-label']}>
         Text
         <textarea
           className={`${classes['form-input']} ${classes['input-large']}`}
           type="text"
-          name="text"
+          name="body"
           placeholder="Text"
-          {...register('text')}
+          {...register('body')}
         />
-        <p className={classes['form-error']}>{errors.text && errors.text.message}</p>
+        <p className={classes['form-error']}>{errors.body && 'Fill out this field'}</p>
       </label>
       <label className={`${classes['form-label']} ${classes['label-tag']}`}>
         Tags

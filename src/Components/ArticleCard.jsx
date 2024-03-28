@@ -14,7 +14,7 @@ export const ArticleCard = ({ item }) => {
     item.tagList.slice(0, 5).map((el, index) => {
       if (!el?.trim().length) {
         return (
-          <span key={index} className={classes['header-tag']}>
+          <span key={index} className={`${classes['header-tag']} ${classes['empty']}`}>
             empty
           </span>
         )
